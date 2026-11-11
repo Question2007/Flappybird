@@ -47,6 +47,7 @@ namespace Flappybird
             Pipe_Move();
             Pipe_Generate();
             Death();
+
         }
 
         private void Death()
@@ -60,7 +61,9 @@ namespace Flappybird
                 Canvas.SetTop(Bird, 200);
                 Canvas.SetLeft(PipeBottom, 800);
                 Canvas.SetLeft(PipeTop, 800);
+                score = 0;
             }
+
         }
 
         private void Pipe_Generate()
@@ -84,6 +87,13 @@ namespace Flappybird
             double aktualisBottomPoz = Canvas.GetLeft(PipeBottom);
             Canvas.SetLeft(PipeTop, aktualisTopPoz - pipeSpeed);
             Canvas.SetLeft(PipeBottom, aktualisBottomPoz - pipeSpeed);
+
+
+            if (Canvas.GetLeft(PipeTop) + PipeTop.Width < Canvas.GetLeft(Bird) + Bird.Width + 10)
+            {
+                score += 1;
+                ScoreText.Text = "Score: " + score;
+            }
         }
 
         private void BirdGravity()
@@ -96,7 +106,8 @@ namespace Flappybird
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
-
+            score = 0;
+            ScoreText.Text = "Score: 0";
             timer.Start();
             StartBtn.IsEnabled = false;
 
