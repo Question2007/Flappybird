@@ -19,6 +19,7 @@ namespace Flappybird
     {
         private DispatcherTimer timer;
         private Random r = new Random();
+        private int score = 0;
         public MainWindow()
         {
             InitializeComponent();
@@ -45,6 +46,21 @@ namespace Flappybird
             BirdGravity();
             Pipe_Move();
             Pipe_Generate();
+            Death();
+        }
+
+        private void Death()
+        {
+            if ((Canvas.GetTop(Bird) < Canvas.GetTop(PipeTop) + PipeTop.Height || Canvas.GetTop(Bird) + Bird.Height < Canvas.GetLeft(PipeBottom)) && Canvas.GetLeft(Bird) + Bird.Width > Canvas.GetLeft(PipeTop) && Canvas.GetLeft(Bird) < Canvas.GetLeft(PipeTop) + PipeTop.Width)
+            {
+                timer.Stop();
+                MessageBox.Show("Game Over!");
+                StartBtn.IsEnabled = true;
+
+                Canvas.SetTop(Bird, 200);
+                Canvas.SetLeft(PipeBottom, 800);
+                Canvas.SetLeft(PipeTop, 800);
+            }
         }
 
         private void Pipe_Generate()
@@ -80,6 +96,7 @@ namespace Flappybird
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
         {
+
             timer.Start();
             StartBtn.IsEnabled = false;
 
