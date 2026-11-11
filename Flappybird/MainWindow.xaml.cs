@@ -52,8 +52,8 @@ namespace Flappybird
             int hatarvonal = -50;
             if (Canvas.GetLeft(PipeBottom) == hatarvonal)
             {
-                int alsoCsatornaPoz = r.Next(150, 300);
-                int felsoCsatornaPoz = alsoCsatornaPoz - 250;
+                int alsoCsatornaPoz = r.Next(234, 350);
+                int felsoCsatornaPoz = alsoCsatornaPoz - 370;
                 Canvas.SetTop(PipeBottom, alsoCsatornaPoz);
                 Canvas.SetTop(PipeTop, felsoCsatornaPoz);
                 Canvas.SetLeft(PipeBottom, 800);

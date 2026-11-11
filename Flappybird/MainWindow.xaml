@@ -7,17 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
 
-        <Button x:Name="StartBtn" Content="Start" Width="100" Height="30" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="10" Click="StartButton_Click" Grid.Row="0"/>
+
+        <Button x:Name="StartBtn" Content="Start" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Click="StartButton_Click" Grid.Row="0" Panel.ZIndex="1"/>
 
         <Canvas Name="GameCanvas" Background="LightBlue" Grid.Row="1">
             <Rectangle Name="Bird" Width="30" Height="30" Fill="Yellow" Canvas.Left="100" Canvas.Top="200"/>
-            <Rectangle Name="PipeTop" Width="50" Height="150" Fill="Green" Canvas.Left="800" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Rectangle Name="PipeBottom" Width="50" Height="150" Fill="Green" Canvas.Left="800" Canvas.Top="304"/>
+            <Rectangle Name="PipeTop" Width="50" Height="250" Fill="Green" Canvas.Left="800" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="-34"/>
+            <Rectangle Name="PipeBottom" Width="50" Height="250" Fill="Green" Canvas.Left="800" Canvas.Top="355" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         </Canvas>
     </Grid>
 </Window>
