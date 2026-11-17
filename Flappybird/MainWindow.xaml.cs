@@ -23,7 +23,15 @@ namespace Flappybird
 
         private bool inGame = false;
 
+
         string selectedLevel;
+
+        private Rectangle fog = new Rectangle
+        {
+            Width = 0,
+            Height = 0,
+            Fill = new SolidColorBrush(Color.FromArgb(150, 200, 200, 200))
+        };
 
         private List<String> levels = new List<string> { "normál", "esős", "ködös" };
         public MainWindow()
@@ -43,6 +51,10 @@ namespace Flappybird
             { 
                 double aktualisPoz = Canvas.GetTop(Bird);
                 double sebesseg = -70;
+                if (selectedLevel == "esős")
+                {
+                    sebesseg = -50;
+                }
                 double ujPoz = aktualisPoz + sebesseg;
                 if (ujPoz > -20)
                 {
@@ -59,6 +71,15 @@ namespace Flappybird
             Pipe_Generate();
             Death();
 
+
+            if (selectedLevel == "esős" && inGame)
+            {
+                Rain();
+            }
+            else if (selectedLevel == "ködös" && inGame)
+            {
+                Fog();
+            }
         }
 
         private void Death()
@@ -77,6 +98,8 @@ namespace Flappybird
                 score = 0;
                 Levels.Opacity = 1;
                 LevelsList.Opacity = 1;
+
+                GameCanvas.Children.Remove(fog);
             }
 
         }
@@ -137,13 +160,18 @@ namespace Flappybird
                 if (selectedLevel == "esős")
                 {
                     GameCanvas.Background = new SolidColorBrush(Color.FromRgb(100, 100, 100)); // Gray background for rainy level
-                    Rain();
                 }
 
-                else if (selectedLevel == "ködös")
-                    {
-                       
-                    }
+                else if (selectedLevel == "ködös")    
+                {
+                    GameCanvas.Children.Add(fog);
+                    fog.Width = GameCanvas.ActualWidth;
+                    fog.Height = GameCanvas.ActualHeight;
+                }
+                else
+                {
+                    GameCanvas.Background = new SolidColorBrush(Color.FromRgb(135, 206, 235)); // Default sky blue background
+                }
             }
             else
             {
@@ -155,7 +183,7 @@ namespace Flappybird
 
         private void Rain()
         {
-            if (new Random().Next(0, 100) < 2)// what is this? this is a random chance to spawn a rain effect
+            if (new Random().Next(0, 100) < 7)
             {
                 Rectangle rain = new Rectangle
                 {
@@ -180,6 +208,23 @@ namespace Flappybird
                 };
                 rainTimer.Start();
             }
+        }
+
+        private void Fog()
+        {
+            
+            if (r.Next(0, 100) < 2)
+            {
+                
+                if (fog.Visibility == Visibility.Visible) {
+                    fog.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    fog.Visibility = Visibility.Visible;
+                }
+            }
+
         }
     }
 }
