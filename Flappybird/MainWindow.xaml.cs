@@ -26,6 +26,8 @@ namespace Flappybird
 
         string selectedLevel;
 
+        private bool passed = false;
+
         private Rectangle fog = new Rectangle
         {
             Width = 0,
@@ -76,10 +78,6 @@ namespace Flappybird
             {
                 Rain();
             }
-            else if (selectedLevel == "ködös" && inGame)
-            {
-                Fog();
-            }
         }
 
         private void Death()
@@ -107,7 +105,8 @@ namespace Flappybird
         private void Pipe_Generate()
         {
             int hatarvonal = -50;
-            if (Canvas.GetLeft(PipeBottom) == hatarvonal)
+
+            if (Canvas.GetLeft(PipeBottom) <= hatarvonal)
             {
                 int alsoCsatornaPoz = r.Next(234, 350);
                 int felsoCsatornaPoz = alsoCsatornaPoz - 370;
@@ -115,22 +114,24 @@ namespace Flappybird
                 Canvas.SetTop(PipeTop, felsoCsatornaPoz);
                 Canvas.SetLeft(PipeBottom, 800);
                 Canvas.SetLeft(PipeTop, 800);
+                passed = false;
             }
         }
 
         private void Pipe_Move()
         {
-            double pipeSpeed = 5;
+            double pipeSpeed = 8;
             double aktualisTopPoz = Canvas.GetLeft(PipeTop);
             double aktualisBottomPoz = Canvas.GetLeft(PipeBottom);
             Canvas.SetLeft(PipeTop, aktualisTopPoz - pipeSpeed);
             Canvas.SetLeft(PipeBottom, aktualisBottomPoz - pipeSpeed);
 
 
-            if (Canvas.GetLeft(PipeTop) + PipeTop.Width < Canvas.GetLeft(Bird) - Bird.Width - 65)
+            if (Canvas.GetLeft(PipeTop) + PipeTop.Width < Canvas.GetLeft(Bird) -90 && !passed)
             {
                 score += 1;
                 ScoreText.Text = "Score: " + score;
+                passed = true;
             }
         }
 
@@ -147,7 +148,6 @@ namespace Flappybird
             if (LevelsList.SelectedItem != null)
             {
                 selectedLevel = LevelsList.SelectedItem.ToString();
-                // You can implement level-specific logic here based on the selected level
                 MessageBox.Show($"Selected Level: {selectedLevel}");
                 inGame = true;
                 score = 0;
@@ -159,7 +159,8 @@ namespace Flappybird
 
                 if (selectedLevel == "esős")
                 {
-                    GameCanvas.Background = new SolidColorBrush(Color.FromRgb(100, 100, 100)); // Gray background for rainy level
+                    GameCanvas.Background = new SolidColorBrush(Color.FromRgb(100, 100, 100));
+                    Kod.Visibility = Visibility.Hidden;
                 }
 
                 else if (selectedLevel == "ködös")    
@@ -167,10 +168,13 @@ namespace Flappybird
                     GameCanvas.Children.Add(fog);
                     fog.Width = GameCanvas.ActualWidth;
                     fog.Height = GameCanvas.ActualHeight;
+                    Kod.Visibility = Visibility.Visible;
+                    GameCanvas.Background = new SolidColorBrush(Color.FromRgb(100, 100, 100));
                 }
                 else
                 {
-                    GameCanvas.Background = new SolidColorBrush(Color.FromRgb(135, 206, 235)); // Default sky blue background
+                    GameCanvas.Background = new SolidColorBrush(Color.FromRgb(135, 206, 235));
+                    Kod.Visibility = Visibility.Hidden;
                 }
             }
             else
@@ -183,7 +187,7 @@ namespace Flappybird
 
         private void Rain()
         {
-            if (new Random().Next(0, 100) < 7)
+            if (new Random().Next(0, 100) < 12)
             {
                 Rectangle rain = new Rectangle
                 {
@@ -208,23 +212,6 @@ namespace Flappybird
                 };
                 rainTimer.Start();
             }
-        }
-
-        private void Fog()
-        {
-            
-            if (r.Next(0, 100) < 2)
-            {
-                
-                if (fog.Visibility == Visibility.Visible) {
-                    fog.Visibility = Visibility.Hidden;
-                }
-                else
-                {
-                    fog.Visibility = Visibility.Visible;
-                }
-            }
-
         }
     }
 }

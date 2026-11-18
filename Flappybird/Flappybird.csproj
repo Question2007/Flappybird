@@ -8,4 +8,12 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Charming-Pixel-Bird-Gathering-Seeds-In-Field-PNG.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Charming-Pixel-Bird-Gathering-Seeds-In-Field-PNG.png" />
+  </ItemGroup>
+
 </Project>
