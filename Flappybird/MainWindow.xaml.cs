@@ -35,6 +35,8 @@ namespace Flappybird
             Fill = new SolidColorBrush(Color.FromArgb(150, 200, 200, 200))
         };
 
+        List<Rectangle> pipes = new List<Rectangle>();
+
         private List<String> levels = new List<string> { "normál", "esős", "ködös" };
         public MainWindow()
         {
@@ -104,9 +106,33 @@ namespace Flappybird
 
         private void Pipe_Generate()
         {
+            for (int i = 0; i < 3; i++)
+            {
+                Rectangle pipeTop = new Rectangle
+                {
+                    Width = 50,
+                    Height = 250,
+                    Fill = Brushes.Green
+                };
+                Rectangle pipeBottom = new Rectangle
+                {
+                    Width = 50,
+                    Height = 250,
+                    Fill = Brushes.Green
+                };
+                Canvas.SetLeft(pipeTop, 800);
+                Canvas.SetTop(pipeTop, 0);
+                Canvas.SetLeft(pipeBottom, 800);
+                Canvas.SetTop(pipeBottom, 400);
+                pipes.Add(pipeTop);
+                pipes.Add(pipeBottom);
+                GameCanvas.Children.Add(pipeTop);
+                GameCanvas.Children.Add(pipeBottom);
+            }
+
             int hatarvonal = -50;
 
-            if (Canvas.GetLeft(PipeBottom) <= hatarvonal)
+            if (Canvas.GetLeft(PipeBottom) <= hatarvonal || Canvas.GetLeft(pipes[0]) <= hatarvonal)
             {
                 int alsoCsatornaPoz = r.Next(234, 350);
                 int felsoCsatornaPoz = alsoCsatornaPoz - 370;
@@ -114,6 +140,7 @@ namespace Flappybird
                 Canvas.SetTop(PipeTop, felsoCsatornaPoz);
                 Canvas.SetLeft(PipeBottom, 800);
                 Canvas.SetLeft(PipeTop, 800);
+
                 passed = false;
             }
         }
